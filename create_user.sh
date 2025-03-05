@@ -23,16 +23,9 @@ if [ "$#" -ne 2 ]; then
     echo "Error: username of the new user is the first argument and ssh-key second last argument."
 fi
 
-# # Check if usernals
-
-
-
-exit 1
-
 NEWUSER=$1
 COMPANY_GROUP_NAME="tensorpix"
 COMPANY_GROUP_GID=$(getent group $COMPANY_GROUP_NAME | cut -d: -f3)
-
 
 
 # Create company group if it doesn't exist
