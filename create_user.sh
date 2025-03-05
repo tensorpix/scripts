@@ -19,15 +19,20 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-# Check if username is provided
-if [ -z "$1" ]; then
-    echo "Error: username of the new user is the first argument."
-    exit 1
+if [ "$#" -ne 2 ]; then
+    echo "Error: username of the new user is the first argument and ssh-key second last argument."
 fi
 
+# # Check if usernals
+
+
+
+exit 1
+
 NEWUSER=$1
-COMPANY_GROUP_GID=1004
 COMPANY_GROUP_NAME="tensorpix"
+COMPANY_GROUP_GID=$(getent group $COMPANY_GROUP_NAME | cut -d: -f3)
+
 
 
 # Create company group if it doesn't exist
@@ -66,7 +71,6 @@ chown -R $NEWUSER:$NEWUSER $HOME_DIR
 chmod 700 $HOME_DIR
 chmod 700 $HOME_DIR/.ssh
 chmod 600 $HOME_DIR/.ssh/authorized_keys
+echo -e $2 >> $HOME_DIR/.ssh/authorized_keys
 
-
-echo "Call to action: add public key to /home/$NEWUSER/.ssh/authorized_keys"
 echo "Call to action: tell $NEWUSER to change their password with 'passwd' command"
