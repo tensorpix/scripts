@@ -60,10 +60,17 @@ usermod -aG docker $NEWUSER
 HOME_DIR="/home/$NEWUSER"
 mkdir -p $HOME_DIR/.ssh
 touch $HOME_DIR/.ssh/authorized_keys
+echo -e $2 >> $HOME_DIR/.ssh/authorized_keys
+
+# Set permissions
 chown -R $NEWUSER:$NEWUSER $HOME_DIR
 chmod 700 $HOME_DIR
 chmod 700 $HOME_DIR/.ssh
 chmod 600 $HOME_DIR/.ssh/authorized_keys
-echo -e $2 >> $HOME_DIR/.ssh/authorized_keys
+
+# Add "source .bashrc" to .bash_profile if it doesn't exist already
+source_bashrc_cmd="[ -f $HOME/.bashrc ] && . ~/.bashrc"
+grep -qxF $source_bashrc_cmd $HOME/.bash_profile || echo $source_bashrc_cmd >> $home/.bash_profile
+
 
 echo "Call to action: tell $NEWUSER to change their password with 'passwd' command"
